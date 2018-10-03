@@ -1,0 +1,297 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+	int prn;
+	char name[10];
+	Node *next;
+public:
+	friend class list;
+};
+
+class list{
+	Node *p;
+	Node *head;
+	int c;
+public:
+	list(){
+		head=NULL;
+		p=NULL;
+		c=0;
+	}
+	void AddMember(){
+		int po;
+		p=new Node;
+		cout<<"Enter PRN No.: ";
+		cin>>p->prn;
+		cout<<"Enter Name: ";
+		cin>>p->name;
+		cout<<"Enter the Position at which member is to be added: ";
+		cin>>po;
+		if(po>c){
+			cout<<"Enter correct position"<<endl;
+			return;
+		}
+		Node *t,*a;
+		t=head;
+		if(head){
+			for(int i=1;i<c;i++,t=t->next){
+				if(i==po-1){
+					a=t->next;
+					t->next=p;
+					p->next=a;
+					c++;
+					break;
+				}
+			}
+		}
+		else
+			cout<<"Add President First"<<endl;
+	}
+
+	void display(){
+		Node *t;
+		t=head;
+		while(t){
+			cout<<"PRN: "<<t->prn<<"\nName: "<<t->name<<endl;
+			t=t->next;
+		}
+		if(!head){
+			cout<<"List is Empty"<<endl;
+		}
+	}
+	void count(){
+		cout<<"Total no. of students in list = "<<c<<endl;
+	}
+	void AddPresident(){
+		p=new Node;
+		cout<<"Enter PRN No.: ";
+		cin>>p->prn;
+		cout<<"Enter Name: ";
+		cin>>p->name;
+		if(!head)
+			head=p;
+		else{
+			p->next=head;
+			head=p;
+		}
+		c++;
+	}
+	void AddSecretory(){
+		Node *t;
+		p=new Node;
+		cout<<"Enter PRN No.: ";
+		cin>>p->prn;
+		cout<<"Enter Name: ";
+		cin>>p->name;
+		p->next=NULL;
+		t=head;
+		if(t){
+			while(t->next!=NULL){
+				t=t->next;
+			}
+			t->next=p;
+			c++;
+		}
+		else
+			cout<<"Add president First"<<endl;
+	}
+	void DeleteMember(){
+		int d;
+		cout<<"Enter the PRN no. of the member to be deleted: ";
+		cin>>d;
+		Node *t;
+		t=head;
+		while(t->next){
+			if(t->next->prn==d){
+				Node *a;
+				a=t->next;
+				t->next=t->next->next;
+				delete a;
+				c--;
+				break;
+			}
+			t=t->next;
+		}
+	}
+	void DeletePresident(){
+		Node *t;
+		t=head;
+		head=head->next;
+		delete t;
+		c--;
+
+	}
+	void DeleteSecretary(){
+		Node *t,*a;
+		t=head;
+		if(t->next){
+			while(t->next->next){
+				t=t->next;
+			}
+			a=t->next;
+			t->next=NULL;
+			c--;
+			delete a;
+			a=NULL;
+		}
+		else{
+			a=t;
+			delete a;
+			a=NULL;
+			head=NULL;
+			c--;
+		}
+	}
+	void dispRev(Node *x){
+		if(x->next)
+			dispRev(x->next);
+		cout<<"PRN: "<<x->prn<<"\nName: "<<x->name<<endl;
+	}
+	void Reverse(){
+		dispRev(head);
+	}
+	void concatenate(list l){
+		Node *t;
+		t=head;
+		while(t->next){
+			t=t->next;
+		}
+		t->next=l.head;
+	}
+	void Sort(){
+		Node *t;
+		int temp;
+		t=head;
+		for(Node *a=t;a->next;a=a->next){
+			for(Node *b=a;b->next;b=b->next){
+				if(b->prn>b->next->prn){
+					temp=b->prn;
+					b->prn=b->next->prn;
+					b->next->prn=temp;
+				}
+			}
+		}
+	}
+	void mergeList(list l){
+		Node *t1,*t2,*t1p,*t;
+		t1=head;
+		t1p=NULL;
+		t2=l.head;
+		while(t1&&t2){
+			if(t2->prn<t1->prn){
+				t=t2->next;
+				t2->next=t1;
+				if(!t1p){
+					head=t2;
+				}
+				else{
+					t1p->next=t2;
+					t1p=t1p->next;
+				}
+				t2=t;
+			}
+			else{
+				t1p=t1;
+				t1=t1->next;
+			}
+		}
+		if(!t1&&t2)
+			t1p->next=t2;
+	}
+};
+
+int main() {
+	list a;
+	int c;
+	cout<<"First List:\n\n";
+	cout<<"1.Add President\n2.Add Member\n3.Add Secretary\n4.Delete President\n5.Delete Member\n6.Delete Secretary\n7.Display List\n8.Display Total Members\n9.Display list in reverse order\n10.Sort list\n11.Exit"<<endl;
+	do{
+		cout<<"Enter choice: ";
+		cin>>c;
+		switch(c){
+		case 1:
+			a.AddPresident();
+			break;
+		case 2:
+			a.AddMember();
+			break;
+		case 3:
+			a.AddSecretory();
+			break;
+		case 4:
+			a.DeletePresident();
+			break;
+		case 5:
+			a.DeleteMember();
+			break;
+		case 6:
+			a.DeleteSecretary();
+			break;
+		case 7:
+			a.display();
+			break;
+		case 8:
+			a.count();
+			break;
+		case 9:
+			a.Reverse();
+			break;
+		case 10:
+			a.Sort();
+			break;
+		case 11:
+			break;
+		default:
+			cout<<"INVALID OPTION"<<endl;
+		}
+	}while(c!=11);
+	list b;
+	cout<<"\n\nSecond List\n"<<endl;
+	cout<<"1.Add President\n2.Add Member\n3.Add Secretary\n4.Delete President\n5.Delete Member\n6.Delete Secretary\n7.Display List\n8.Display Total Members\n9.Display list in reverse order\n10.Sort List\n11.Exit"<<endl;
+		do{
+			cout<<"Enter choice: ";
+			cin>>c;
+			switch(c){
+			case 1:
+				b.AddPresident();
+				break;
+			case 2:
+				b.AddMember();
+				break;
+			case 3:
+				b.AddSecretory();
+				break;
+			case 4:
+				b.DeletePresident();
+				break;
+			case 5:
+				b.DeleteMember();
+				break;
+			case 6:
+				b.DeleteSecretary();
+				break;
+			case 7:
+				b.display();
+				break;
+			case 8:
+				b.count();
+				break;
+			case 9:
+				b.Reverse();
+				break;
+			case 10:
+				b.Sort();
+				break;
+			case 11:
+				break;
+			default:
+				cout<<"INVALID OPTION"<<endl;
+			}
+		}while(c!=11);
+		cout<<"\nConcatinated List: "<<endl;
+		list m;
+		a.mergeList(b);
+		a.display();
+	return 0;
+}
