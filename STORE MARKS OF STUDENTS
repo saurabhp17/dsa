@@ -1,0 +1,128 @@
+#include<iostream>
+using namespace std;
+class students
+{
+public:
+int student[100],count,n,i,e,total,max,min,j,counta,high;
+float avg;
+void getmarks()
+{
+total=0;
+counta=0;
+high=0;
+cout<<"Enter the number of students for DATA STRUCTURE test"<<"\n";
+cin>>n;
+for(i=1;i<=n;i++)
+{
+cout<<"Enter the marks obtained by roll no "<<i<<"\n";
+cin>>student[i];
+
+if(student[i]>=0)
+{
+cout<<"The marks obtained by roll no"<<i<<"is:"<<student[i]<<"\n";
+total=total+student[i];
+}
+else
+{
+cout<<"The roll no"<<i<<"was absent for the test:\n";
+counta=counta+1;
+}
+}
+}
+void average()
+{
+avg=total/(n-counta);
+cout<<"\nThe average marks obtained by the students in DATA STRUCTURE are:"<<avg<<"\n";
+}
+
+void absent()
+{
+cout<<"\nThe number of absent students are"<<counta<<"\n";
+}
+
+void highest()
+{
+int high=0;
+
+for(i=1;i<=n;i++)
+{
+if(student[0]>student[i])
+{
+high=student[0];
+}
+else
+{
+student[0]=student[i];
+}
+high=student[0];
+
+}
+cout<<"\nThe highest marks obtained are"<<high<<"\n";
+}
+
+void minimum()
+{
+int low;
+
+for(i=1;i<=n;i++)
+{
+if(student[i]>0)
+{
+if(student[0]<student[i])
+{
+low=student[0];
+}
+else
+{
+student[0]=student[i];
+}
+}
+low=student[0];
+
+}
+cout<<"\nThe minimum marks obtained are"<<low<<"\n";
+}
+
+void frequent()
+{
+  int max_count=1,freq=student[0],curr_count=1;
+     for(int i=1;i<n;i++)
+     {
+         if(student[i]==student[i-1]&&student[i]>0)
+             curr_count++;
+         else
+        {
+             if(curr_count>max_count)
+              {
+                 max_count=curr_count;
+                 freq=student[i-1];
+              }
+             curr_count=1;
+         }
+     }
+
+     if (curr_count>max_count)
+     {
+         max_count=curr_count;
+         freq=student[n - 1];
+     }
+  cout<<"the maximum occured marks are:"<<freq;
+
+}
+
+void display()
+{
+getmarks();
+average();
+absent();
+highest();
+minimum();
+frequent();
+}
+};
+
+int main()
+{
+students s1;
+s1.display();
+}
