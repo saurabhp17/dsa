@@ -1,0 +1,131 @@
+#include<iostream>
+using namespace std;
+
+class search
+{
+public:
+  void binary(int arr[],int l,int r,int x)
+  {
+    while(l<=r)
+    {
+      int m=l+(r-1)/2;
+      if(arr[m]==x)
+      cout<<"\nThe element is present at position: "<<m<<"\n";
+      if(arr[m]<x)
+      l=m+1;
+      else
+      r=m-1;
+    }
+
+  }
+
+  void sentinel(int arr[],int k,int x)
+  {
+    int last=arr[k-1];
+    arr[k-1]=x;
+    int  i=0;
+    while(arr[i]!=x)
+     {
+        i++;
+     }
+    arr[k-1]=last;
+    if( (i<k-1)||(x==arr[k-1]) )
+     {
+       cout << " Element is present at position "<<i;
+     }
+    else
+     {
+       cout << " Element Not Found";
+     }
+
+}
+
+  void linear(int arr[], int k, int x)
+  {
+    for(int i=0;i<k;i++)
+    {
+      if(arr[i]==x)
+      cout<<"\nThe element is present at position: "<<i<<"\n";
+    }
+  }
+
+  int fibonacci(int arr[],int k, int x)
+  {
+    int fibMMm2 = 0;
+    int fibMMm1 = 1;
+    int fibM = fibMMm2 + fibMMm1;
+    while (fibM<k)
+    {
+        fibMMm2 = fibMMm1;
+        fibMMm1 = fibM;
+        fibM  = fibMMm2 + fibMMm1;
+    }
+    int offset = -1;
+    while (fibM > 1)
+    {
+        int i = min(offset+fibMMm2, k-1);
+        if (arr[i] < x)
+        {
+            fibM  = fibMMm1;
+            fibMMm1 = fibMMm2;
+            fibMMm2 = fibM - fibMMm1;
+            offset = i;
+        }
+        else if (arr[i] > x)
+        {
+            fibM  = fibMMm2;
+            fibMMm1 = fibMMm1 - fibMMm2;
+            fibMMm2 = fibM - fibMMm1;
+        }
+        else
+        return i;
+    }
+
+
+}
+
+};
+
+int main()
+{
+  int a;
+  search s;
+  int arr[100],k,x,ch;
+  cout<<"Enter the number of students who attended:\n";
+  cin>>k;
+  cout<<"\nEnter the roll number of the students:\n";
+  for(int i=0;i<k;i++)
+  {
+    cin>>arr[i];
+  }
+  int r=k-1;
+
+  cout<<"\nEnter the roll number to be searched:\n";
+  cin>>x;
+
+  label1:
+  cout<<"\nChoose the type of search to be executed\n1)Binary search\n2)Linear search\n3)Sentinel search\n4)Fibonacci search";
+  cin>>ch;
+  switch(ch)
+  {
+    case 1:
+    s.binary(arr,0,k-1,x);
+    break;
+
+    case 2:
+    s.linear(arr,k,x);
+    break;
+
+    case 3:
+    s.sentinel(arr,k,x);
+    break;
+
+    case 4:
+    cout<<"Element present at position :"<<s.fibonacci(arr,k,x);
+    break;
+ }
+  cout<<"\nDo you want to continue?\n1)yes\n2)no\n";
+  cin>>a;
+  if(a==1)
+  goto label1;
+}
