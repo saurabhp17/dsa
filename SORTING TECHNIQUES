@@ -1,0 +1,101 @@
+#include<iostream>
+using namespace std;
+
+class sort
+{
+public:
+  int i,n,loc,j;
+  double temp=0;
+
+  void selection_sort(double a[],int n)
+  {
+
+    for(i=0;i<(n-1);i++)
+    {
+        loc=i;
+        for(j=(i+1);j<n;j++)
+        {
+          if(a[loc]>a[j])
+          loc=j;
+      }
+      if(loc!=i)
+      {
+        temp=a[i];
+        a[i]=a[loc];
+        a[loc]=temp;
+      }
+    }
+    cout<<"\nThe sorted array in ascending order is:\n";
+    for(i=0;i<n;i++)
+    {
+      cout<<a[i]<<" ";
+    }
+  }
+
+  void bubble_sort(double a[], int n)
+  {
+    for(i=0;i<(n-1);i++)
+  	{
+  		for(j=0;j<(n-i-1);j++)
+  		{
+  			if(a[j]>a[j+1])
+  			{
+  				temp=a[j];
+  				a[j]=a[j+1];
+  				a[j+1]=temp;
+  			}
+  		}
+  	}
+
+  	cout<<"\nThe sorted array is:\n";
+  	for(i=0;i<n;i++)
+  	{
+  		cout<<a[i]<<" ";
+  	}
+
+    cout<<"\nThe top 5 elements are:\n";
+    for(i=0;i<5;i++)
+    {
+      cout<<a[i]<<" ";
+    }
+  }
+};
+
+int main()
+{
+  sort s1;
+  int i,n,k,c,ch;
+  double a[10];
+  cout<<"\nEnter the number of students:\n";
+  cin>>n;
+  cout<<"\nEnter the XII percentage of the students:\n";
+  for(i=0;i<n;i++)
+  {
+    cin>>a[i];
+  }
+
+  label1:
+  cout<<"\n1)Selection Sort\n2)Bubble Sort\n";
+  cout<<"\nEnter the type of sort you want to perform:\n";
+  cin>>ch;
+
+  switch(ch)
+  {
+    case 1:
+    s1.selection_sort(a,n);
+    break;
+
+    case 2:
+    s1.bubble_sort(a,n);
+    break;
+
+    default:
+    cout<<"\nInvalid choice\n";
+  }
+
+  cout<<"\nDo you want to continue?\n1)yes\n2)no\n";
+  cin>>c;
+  if(c==1)
+  goto label1;
+
+}
